@@ -21,11 +21,11 @@ function AppNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-    
+      <Stack.Screen name="signup" options={{ headerShown: false }} component={signup} />
       <Stack.Screen name="map" options={{ headerShown: false }} component={map} />
       <Stack.Screen name="home" options={{ headerShown: false }} component={home} />
       <Stack.Screen name="login" options={{ headerShown: false }} component={login} />
-      <Stack.Screen name="signup" options={{ headerShown: false }} component={signup} />
+    
     
       
 

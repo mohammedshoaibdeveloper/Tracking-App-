@@ -1,7 +1,20 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Alert,View , Text,StyleSheet,ScrollView} from 'react-native';
 import { TextInput,Button } from 'react-native-paper';
-// import { SocialIcon } from 'react-native-elements'
+import * as ImagePicker from 'react-native-image-picker';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Geolocation from '@react-native-community/geolocation';
+import { AsyncStorage } from 'react-native';
+
+
+const options = {
+  title: 'Select Avatar',
+  customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
 
 
 function signup(props){
@@ -9,25 +22,116 @@ function signup(props){
     const [username,setUsername] = useState("");
     const [fullname,setfullname] = useState("");
    
-    const [phonenumber,setphonenumber] = useState("");
+    // const [phonenumber,setphonenumber] = useState("");
    
     const [password,setPassword] = useState("");
+    const [image_source,setImage] = useState("");
+    const [Mycordinate, setCordinate] = useState({});
+    
 
     const save_data=()=>{
 
       let user = {
 
-        email,username,phonenumber,password,fullname
+        email,username,password,fullname,image_source,Mycordinate
       }
 
-      console.log("user==>",user)
-      // Alert.alert('Credentials', `${username} + ${password}`);
+      console.log("user==>",Mycordinate.latitude)
 
-      
-          }
+      var formdata = new FormData();
+        formdata.append("Full_Name", fullname);
+        formdata.append("Email", email);
+        formdata.append("Username", username);
+        formdata.append("Password", password);
+        formdata.append("Image", image_source);
+        formdata.append("Sender_ID", "dCCqEA1dRbyN_9YmWCRDDD:APA91bGpyATcY7d-IH2ksllRzmWuOWk7fn1HsHD71kQWdaPiYxqHYCsbbqKdVL1pjoSf4wRtzzgoctlf0d6LXwNbC03b3f7g__tW2GSKaBIzdAvYpbXf-07bMYzCq5XWVfCxqppacAGL");
+        formdata.append("Device_type", "android");
+        formdata.append("latitude", Mycordinate.latitude);
+        formdata.append("longitude", Mycordinate.longitude);
+
+        var requestOptions = {
+          method: 'POST',
+          body: formdata,
+          redirect: 'follow'
+        };
+
+        fetch("https://maesamraza.pythonanywhere.com/User_Signup", requestOptions)
+        .then(response => response.json()
+
+        )
+        .then(result => {console.log("my result is",result)
+
+
+        if(result.status == true){
+          _storeData = async () => {
+        try {
+          await AsyncStorage.setItem("userdata", JSON.stringify(result.data))
+
+        } catch (error) {
+        // Error saving data
+      }
+      };
+           Alert.alert(result.message);
+          props.navigation.navigate("login",{result})
+        }
+        else{
+          Alert.alert(result.message);
+        }
+
+
+      })
+        .catch(error => console.log('error', error));
 
 
 
+
+      }
+
+
+          const open_picker=()=>{
+             Alert.alert('Ok')
+           
+            ImagePicker.launchImageLibrary(options, (response) => {
+                console.log('Response = ', response);
+                
+          
+                if (response.didCancel) {
+                  console.log('User cancelled image picker');
+                } else if (response.error) {
+                  console.log('ImagePicker Error: ', response.error);
+                } else if (response.customButton) {
+                  console.log('User tapped custom button: ', response.customButton);
+                  alert(response.customButton);
+                } else {
+                  // const source = { uri: response.uri };
+                  const source = { 'name': response.fileName,'type':response.type,'uri':response.uri };
+                  setImage(source)
+            
+
+
+          
+                  // You can also display the image using data:
+                  // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+                  // alert(JSON.stringify(response));
+
+
+                    console.log("source=>",source)
+                }
+              });
+            }
+           
+
+  useEffect(()=>{
+
+    Geolocation.getCurrentPosition(info => {
+
+    
+      setCordinate(info.coords)
+      console.log("my location ",info.coords)
+     
+  
+    });
+  },[])
 
 
     return(
@@ -67,11 +171,11 @@ function signup(props){
 
              placeholder="Full Name" value={fullname} onChangeText={(fullname)=>setfullname(fullname)}/>
 
-           
+{/*            
                      <TextInput
                 style={styles.input}
 
-                value={phonenumber} keyboardType = 'numeric' onChangeText={(phonenumber)=>setphonenumber(phonenumber)} placeholder="Phone Number"/ >
+                value={phonenumber} keyboardType = 'numeric' onChangeText={(phonenumber)=>setphonenumber(phonenumber)} placeholder="Phone Number"/ > */}
 
              
 
@@ -80,6 +184,10 @@ function signup(props){
             style={styles.input}
 
             secureTextEntry={true} placeholder="Set Password" value={password} onChangeText={(password)=>setPassword(password)}/>
+
+        <Button style={styles.select_image} mode="contained"title="LOGIN" onPress={open_picker}><Text style={{letterSpacing:2.5,color:'black',fontWeight:'bold'}}>Select Image</Text></Button>
+
+
 
 
               
@@ -91,7 +199,7 @@ function signup(props){
           </View>
          
         </ScrollView>
-        <Button style={styles.signin} mode="contained"title="LOGIN" onPress={save_data}><Text style={{letterSpacing:2.5,color:'black',fontWeight:'bold'}}>CREATE AN ACCOUNT</Text></Button>
+        <Button style={styles.signin} mode="contained" onPress={save_data}><Text style={{letterSpacing:2.5,color:'black',fontWeight:'bold'}}>CREATE AN ACCOUNT</Text></Button>
     </View>
    
 
@@ -142,6 +250,10 @@ const styles = StyleSheet.create({
 
 
   },
+  select_image:{
+    backgroundColor:'lightgrey',
+
+  }
 
 
 

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "TrackingApp.app"
-               BlueprintName = "TrackingApp"
-               ReferencedContainer = "container:TrackingApp.xcodeproj">
+               BuildableName = "LiveTracking.app"
+               BlueprintName = "LiveTracking"
+               ReferencedContainer = "container:LiveTracking.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "TrackingAppTests.xctest"
-               BlueprintName = "TrackingAppTests"
-               ReferencedContainer = "container:TrackingApp.xcodeproj">
+               BuildableName = "LiveTrackingTests.xctest"
+               BlueprintName = "LiveTrackingTests"
+               ReferencedContainer = "container:LiveTracking.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TrackingApp.app"
-            BlueprintName = "TrackingApp"
-            ReferencedContainer = "container:TrackingApp.xcodeproj">
+            BuildableName = "LiveTracking.app"
+            BlueprintName = "LiveTracking"
+            ReferencedContainer = "container:LiveTracking.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TrackingApp.app"
-            BlueprintName = "TrackingApp"
-            ReferencedContainer = "container:TrackingApp.xcodeproj">
+            BuildableName = "LiveTracking.app"
+            BlueprintName = "LiveTracking"
+            ReferencedContainer = "container:LiveTracking.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

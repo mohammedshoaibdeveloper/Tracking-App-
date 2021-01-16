@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'TrackingApp' do
+target 'LiveTracking' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'TrackingAppTests' do
+  target 'LiveTrackingTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'TrackingApp' do
   end
 end
 
-target 'TrackingApp-tvOS' do
-  # Pods for TrackingApp-tvOS
+target 'LiveTracking-tvOS' do
+  # Pods for LiveTracking-tvOS
 
-  target 'TrackingApp-tvOSTests' do
+  target 'LiveTracking-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

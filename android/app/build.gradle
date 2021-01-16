@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.trackingapp"
+        applicationId "com.livetracking"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

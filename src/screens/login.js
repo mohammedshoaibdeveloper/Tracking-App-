@@ -1,7 +1,8 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Alert,View , Text,StyleSheet} from 'react-native';
 import { TextInput,Button } from 'react-native-paper';
-// import { SocialIcon } from 'react-native-elements';
+import Geolocation from '@react-native-community/geolocation';
+import { AsyncStorage } from 'react-native';
 
 
 
@@ -9,15 +10,79 @@ function login(props){
 
     const [Username,setUsername] = useState("");
     const [password,setPassword] = useState("");
+    const [Mycordinate, setCordinate] = useState({});
 
     const save_data=()=>{
 
       let user = {
 
-        Username,password
+        Username,password,Mycordinate
       }
 
-      console.log("user==>",user)
+      console.log("user==>",Mycordinate.latitude)
+
+      var formdata = new FormData();
+       
+        formdata.append("Username", Username);
+        formdata.append("Password", password);
+        
+        formdata.append("Sender_ID", "dCCqEA1dRbyN_9YmWCRDDD:APA91bGpyATcY7d-IH2ksllRzmWuOWk7fn1HsHD71kQWdaPiYxqHYCsbbqKdVL1pjoSf4wRtzzgoctlf0d6LXwNbC03b3f7g__tW2GSKaBIzdAvYpbXf-07bMYzCq5XWVfCxqppacAGL");
+        formdata.append("Device_type", "android");
+        formdata.append("latitude", Mycordinate.latitude);
+        formdata.append("longitude", Mycordinate.longitude);
+        console.log("formdata=>",formdata)
+
+        var requestOptions = {
+          method: 'POST',
+          body: formdata,
+          redirect: 'follow'
+        };
+
+        fetch("https://maesamraza.pythonanywhere.com/Login", requestOptions)
+        .then(response => response.json()
+
+        )
+        .then(result => {console.log("my result is",result)
+
+
+        if(result.status == true){
+          _storeData = async () => {
+        try {
+          await AsyncStorage.setItem("userdata", JSON.stringify(result.data))
+          await AsyncStorage.getItem("userdata")
+
+
+        } catch (error) {
+        // Error saving data
+      }
+      };
+           Alert.alert(result.message);
+          props.navigation.navigate("map",{result})
+        }
+        else{
+          Alert.alert(result.message);
+        }
+
+
+      })
+        .catch(error => console.log('error', error));
+
+
+
+
+      }
+      useEffect(()=>{
+
+        Geolocation.getCurrentPosition(info => {
+    
+        
+          setCordinate(info.coords)
+          console.log("my location ",info.coords)
+         
+      
+        });
+      },[])
+    
 
 
 
@@ -25,7 +90,6 @@ function login(props){
 
 
 
-}
 
 
     return(

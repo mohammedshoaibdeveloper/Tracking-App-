@@ -22,8 +22,6 @@ function signup(props){
     const [username,setUsername] = useState("");
     const [fullname,setfullname] = useState("");
    
-    // const [phonenumber,setphonenumber] = useState("");
-   
     const [password,setPassword] = useState("");
     const [image_source,setImage] = useState("");
     const [Mycordinate, setCordinate] = useState({});
@@ -66,13 +64,15 @@ function signup(props){
           _storeData = async () => {
         try {
           await AsyncStorage.setItem("userdata", JSON.stringify(result.data))
+          await AsyncStorage.getItem("userdata")
+
 
         } catch (error) {
         // Error saving data
       }
       };
            Alert.alert(result.message);
-          props.navigation.navigate("login",{result})
+          props.navigation.navigate("map",{result})
         }
         else{
           Alert.alert(result.message);
